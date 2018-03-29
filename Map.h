@@ -7,8 +7,7 @@ private:
 	KeyType first;
 	ValueType second;
 public:
-	Pair(KeyType first = KeyType(), ValueType second = ValueType()) : first(first), second(second) 
-	{
+	Pair(KeyType first = KeyType(), ValueType second = ValueType()) : first(first), second(second) {
 	}
 
 	Pair<KeyType, ValueType> & operator=(const Pair<KeyType, ValueType>& other) {
@@ -20,11 +19,19 @@ public:
 		return *this;
 	}
 
-	KeyType getFirst() {
+	KeyType& getFirst() {
 		return first;
 	}
 
-	ValueType getSecond() {
+	ValueType& getSecond() {
+		return second;
+	}
+
+	const KeyType& getFirst() const {
+		return first;
+	}
+
+	const ValueType& getSecond() const {
 		return second;
 	}
 
@@ -38,14 +45,12 @@ private:
 
 	void changeLength(int length) {
 		Pair<KeyType, ValueType>* temp = new Pair<KeyType, ValueType>[length];
-		for (int i = 0; i < length; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			temp[i] = arr[i];
 		}
 		delete[] arr;
 		arr = new Pair<KeyType, ValueType>[length];
-		for (int i = 0; i < length; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			arr[i] = temp[i];
 		}
 		delete[] temp;
@@ -63,8 +68,7 @@ public:
 	}
 
 	Pair<KeyType, ValueType>* find(KeyType target) {
-		for (int i = 0; i < length; i++)
-		{
+		for (int i = 0; i < length; i++) {
 			if (arr[i].getFirst() == target) {
 				return &arr[i];
 			}
@@ -77,10 +81,77 @@ public:
 		if (result != nullptr) {
 			return result->getSecond();
 		}
-		//insert(Pair<KeyType, ValueType>(target, ValueType()));
+		insert(Pair<KeyType, ValueType>(target, ValueType()));
 	}
 
+	const ValueType& operator[](KeyType target) const {
+		Pair<KeyType, ValueType> * result = find(target);
+		if (result != nullptr) {
+			return result->getSecond();
+		}
+		insert(Pair<KeyType, ValueType>(target, ValueType()));
+	}
 
+	~Map() {
+		delete[] arr;
+	}
+	Map(const Map& other) {
+		this->arr = new Pair<KeyType, ValueType>[other.length];
+		for (int i = 0; i < other.length; i++) {
+			arr[i] = other.arr[i];
+		}
+		this->length = other.length;
+	}
+	Map& operator=(const Map& other) {
+		delete[] this->arr;
+		this->arr = new Pair<KeyType, ValueType>[other.length];
+		for (int i = 0; i < other.length; i++) {
+			arr[i] = other.arr[i];
+		}
+		this->length = other.length;
+	}
+
+	Pair<KeyType, ValueType>* begin() {
+		return this->arr;
+	}
+
+	Pair<KeyType, ValueType>* end() {
+		return &this->arr[this->length];
+	}
+
+	static class iterator {
+		private:
+			Pair<KeyType, ValueType>* current;
+		public:
+			iterator() {
+				current = NULL;
+			}
+
+			iterator(const Pair<KeyType, ValueType>* other) {
+				// magic happens here
+				current = const_cast<Pair<KeyType, ValueType>* >(other);
+			}
+
+			~iterator() {
+				current = NULL;
+			}
+
+			iterator& operator=(Pair<KeyType, ValueType>* other) {
+				current = other;
+			}
+			iterator operator++(int) {
+				current++;
+				return *this;
+			}
+
+			Pair<KeyType, ValueType>* operator->() {
+				return current;
+			}
+
+			bool operator!=(Pair<KeyType, ValueType>* other) {
+				return current != other;
+			}
+	};
 };
 
 #endif
