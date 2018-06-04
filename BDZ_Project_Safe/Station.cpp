@@ -15,8 +15,10 @@ void Station::copy(const Station & other) {
 	this->priority = other.priority;
 	this->name = new char[strlen(other.name) + 1];
 	strcpy_s(this->name, strlen(other.name) + 1, other.name);
-	this->trainCount = 0;
-	this->trains = NULL;
+	this->trainCount = other.trainCount;
+	for (int i = 0; i < trainCount; i++) {
+		this->trains[i] = other.trains[i]->clone();
+	}
 }
 
 
@@ -113,6 +115,20 @@ const char * Station::getName() const {
 Point Station::getCoordinates() const
 {
 	return coordinates;
+}
+
+bool Station::operator==(const Station & other) const {
+	bool result = true;
+	if (!(this->coordinates == other.coordinates)) {
+		result = false;
+	}
+	if (this->priority != other.priority) {
+		result = false;
+	}
+	if (!(strcmp(this->name, other.name) == 0)) {
+		result = false;
+	}
+	return result;
 }
 
 

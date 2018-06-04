@@ -4,9 +4,6 @@
 #include "Station.h"
 #include "Time.h"
 
-class Train;
-class Station;
-
 class Line {
 private:
 	Train* train;
@@ -16,11 +13,15 @@ private:
 	Time arrival;
 	double distance;
 
-	double getDistance() const;
+	double calculateDistance() const;
+	Time calculateArrivalTime();
 
 public:
 	Line();
 	Line(Train* train, Station *startPoint, Station *endPoint, Time departure);
+
+	double Distance() const;
+
 };
 
 

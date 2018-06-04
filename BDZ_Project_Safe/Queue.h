@@ -28,6 +28,7 @@ public:
 	void pop();
 	T backData() const;
 	T frontData() const;
+	
 	bool isEmpty() const;
 	int getSize() const;
 

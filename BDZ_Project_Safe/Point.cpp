@@ -33,6 +33,20 @@ double Point::getLongitudeRad() const {
 	return longitude;
 }
 
+bool Point::operator==(const Point & other) const {
+	bool result = true;
+
+	if (this->latitude != other.latitude) {
+		result = false;
+	}
+
+	if (this->longitude != other.longitude) {
+		result = false;
+	}
+	
+	return result;
+}
+
 double getDistance(Point start, Point end) {
 	//Reference https ://www.physicsforums.com/threads/haversine-formula-c-help.734790/
 	//https: //en.wikipedia.org/wiki/Great-circle_distance

@@ -14,6 +14,7 @@ public:
 	double getLongitudeDegrees() const;
 	double getLatitudeRad() const;
 	double getLongitudeRad() const;
+	bool operator==(const Point& other) const;
 
 	friend double getDistance(Point start, Point end);
 };

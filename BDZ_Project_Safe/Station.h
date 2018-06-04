@@ -27,7 +27,7 @@ public:
 	const char* getName() const;
 	Point getCoordinates() const;
 
-	// bool operator==(const Station& other) const;
+	bool operator==(const Station& other) const;
 
 };
 
