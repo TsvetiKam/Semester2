@@ -4,6 +4,9 @@
 #include "Train.h"
 #include "Station.h"
 #include "Line.h"
+#include  "QuickTrain.h"
+#include "DirectTrain.h"
+#include "ExpressTrain.h"
 
 int main() {
 	
@@ -33,12 +36,40 @@ int main() {
 
 	std::cout << line.Distance() << std::endl;
 
-	Train t; 
+	ExpressTrain t; 
 	std::cin >> t;
+	t.addStation(a);
+	t.addStation(b);
 	t.addStation(c);
 	t.addStation(d);
 	t.addStation(e);
-	std::cout << t;
+	DirectTrain r;
+	std::cin >> r;
+	t.addStation(a);
+	t.addStation(b);
+	t.addStation(c);
+	t.addStation(d);
+	t.addStation(e);
+	QuickTrain s;
+	std::cin >> s;
+	t.addStation(a);
+	t.addStation(b);
+	t.addStation(c);
+	t.addStation(d);
+	t.addStation(e);
+
+
+	Train* trains[4];
+	trains[0] = &train;
+	trains[1] = &t;
+	trains[2] = &r;
+	trains[3] = &s;
+
+	for (int i = 0; i < 4; i++) {
+		std::cout << *trains[i] << std::endl;
+	}
+
+
 
 	return 0;
 

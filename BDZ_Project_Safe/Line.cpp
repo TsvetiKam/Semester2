@@ -27,7 +27,7 @@ double Line::calculateDistance() const {
 }
 
 Time Line::calculateArrivalTime() {
-	int trainSpeed = (train->getSpeed() * 1000 / 3600);
+	int trainSpeed = (int)(train->getSpeed() * 1000 / 3600);
 	int dist = (int)(distance * 1000);
 
 	int duration = dist / trainSpeed;

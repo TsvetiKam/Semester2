@@ -30,7 +30,7 @@ void Train::print(std::ostream & out) const {
 	for (unsigned int i = 0; i < wagonsCount; i++) {
 		out << "Wagon " << i + 1 << " has: " << wagonPlaces[i] << " seats. ";
 	}
-	
+	out << std::endl;
 }
 
 void Train::read(std::istream& in) {
@@ -57,7 +57,7 @@ Train::Train() {
 	speed = 0;
 }
 
-Train::Train(const unsigned int * wagonPlaces, unsigned int wagonsCount, unsigned int speed) {
+Train::Train(const unsigned int * wagonPlaces, unsigned int wagonsCount, double speed) {
 	this->speed = speed;
 	this->wagonsCount = wagonsCount;
 	if (wagonsCount > 0) {
@@ -95,7 +95,7 @@ Queue<Station> Train::getRoute() const {
 	return route;
 }
 
-int Train::getSpeed() const {
+double Train::getSpeed() const {
 	return speed;
 }
 

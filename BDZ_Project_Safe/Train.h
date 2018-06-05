@@ -9,19 +9,23 @@ class Station;
 class Train {
 private:
 
-	unsigned int* wagonPlaces;
-	unsigned int wagonsCount;
-	unsigned int speed;
-	Queue<Station> route;
 	void erase();
 	void copy(const Train& other);
+
+protected:
+
+	unsigned int* wagonPlaces;
+	unsigned int wagonsCount;
+	double speed;
+	Queue<Station> route;
+
 	virtual void print(std::ostream& out) const;
 	virtual void read(std::istream& in);
 
 public:
 
 	Train();
-	Train(const unsigned int* wagonPlaces, unsigned int wagonsCount, unsigned int speed);
+	Train(const unsigned int* wagonPlaces, unsigned int wagonsCount, double speed);
 	Train(const Train& other);
 	Train& operator=(const Train& other);
 	virtual ~Train();
@@ -29,9 +33,9 @@ public:
 	virtual Train* clone() const;
 
 	Queue<Station> getRoute() const;
-	int getSpeed() const;
+	double getSpeed() const;
 
-	void addStation(const Station& s);
+	virtual void addStation(const Station& s);
 
 	friend std::ostream& operator<<(std::ostream& out, Train& train); // * полиморфизъм
 	friend std::istream& operator>>(std::istream& in, Train& train);
