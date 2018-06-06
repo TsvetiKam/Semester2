@@ -7,7 +7,7 @@ double Line::calculateDistance() const {
 	int length = lineRoute.getSize();
 
 	for (int i = 0; i < length; i++) {
-		if (!(lineRoute.frontData() == *startPoint)) {
+		if (!(lineRoute.frontData() == startPoint)) {
 			lineRoute.pop();
 		}
 		else {
@@ -15,7 +15,7 @@ double Line::calculateDistance() const {
 		}
 	}
 	length = lineRoute.getSize();
-	for (int i = 0; i < length - 1 && !(lineRoute.frontData() == *endPoint); i++) {
+	for (int i = 0; i < length - 1 && !(lineRoute.frontData() == endPoint); i++) {
 		Point A = lineRoute.frontData().getCoordinates();
 		lineRoute.pop();
 		Point B = lineRoute.frontData().getCoordinates();
@@ -27,7 +27,7 @@ double Line::calculateDistance() const {
 }
 
 Time Line::calculateArrivalTime() {
-	int trainSpeed = (int)(train->getSpeed() * 1000 / 3600);
+	double trainSpeed = (train->getSpeed() * 1000 / 3600);
 	int dist = (int)(distance * 1000);
 
 	int duration = dist / trainSpeed;
@@ -38,18 +38,24 @@ Time Line::calculateArrivalTime() {
 	end.SetMinutes(duration % 60);
 	end.SetHour(duration / 60);
 
-	return end;
+	Time t = departure;
+	int secondRemainder = (t.getSecondsNum() + end.getSecondsNum()) / 60;
+	t.setSeconds((t.getSecondsNum() + end.getSecondsNum()) % 60);
+
+	int minuteRemainder = (t.getMinutesNum() + end.getMinutesNum() + secondRemainder) / 60;
+	t.SetMinutes((t.getMinutesNum() + end.getMinutesNum() + secondRemainder) % 60);
+
+	int newHour = (t.getHourNum() + end.getHourNum() + minuteRemainder) % 24;
+	t.SetHour(newHour);
+	return t;
 }
 
 Line::Line() : departure("00::00::00"), arrival("00::00::00") {
 	train = NULL;
-	startPoint = NULL;
-	endPoint = NULL;
 	distance = 0;
-	
 }
 
-Line::Line(Train * train, Station * startPoint, Station * endPoint, Time departure) {
+Line::Line(Train * train, Station startPoint, Station endPoint, Time departure) {
 	this->train = train;
 	this->startPoint = startPoint;
 	this->endPoint = endPoint;
@@ -58,6 +64,18 @@ Line::Line(Train * train, Station * startPoint, Station * endPoint, Time departu
 	this->arrival = calculateArrivalTime();
 }
 
+Time Line::getArrival() const {
+	return arrival;
+}
+
 double Line::Distance() const {
 	return distance;
+}
+
+Station Line::getStartPoint() const {
+	return startPoint;
+}
+
+Station Line::getEndPoint() const {
+	return endPoint;
 }

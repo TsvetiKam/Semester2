@@ -15,7 +15,7 @@ public:
 
 	virtual Train* clone() const;
 
-	virtual void addStation(const Station& s);
+	virtual void addStation(Station& s);
 
 	friend std::ostream& operator<<(std::ostream& out, ExpressTrain& train); // * полиморфизъм
 	friend std::istream& operator>>(std::istream& in, ExpressTrain& train);

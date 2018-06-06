@@ -3,7 +3,10 @@
 #include "Queue.h"
 #include "Station.h"
 #include <iostream>
+#include "Time.h"
 
+class Line;
+class RailwaySchedule;
 class Station;
 
 class Train {
@@ -18,6 +21,10 @@ protected:
 	unsigned int wagonsCount;
 	double speed;
 	Queue<Station> route;
+
+	Time departure;
+
+	RailwaySchedule* schedule;
 
 	virtual void print(std::ostream& out) const;
 	virtual void read(std::istream& in);
@@ -35,7 +42,9 @@ public:
 	Queue<Station> getRoute() const;
 	double getSpeed() const;
 
-	virtual void addStation(const Station& s);
+	virtual void addStation(Station& s);
+
+	void printSchedule() const;
 
 	friend std::ostream& operator<<(std::ostream& out, Train& train); // * полиморфизъм
 	friend std::istream& operator>>(std::istream& in, Train& train);

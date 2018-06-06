@@ -32,7 +32,7 @@ Train * ExpressTrain::clone() const {
 	return new ExpressTrain(*this);
 }
 
-void ExpressTrain::addStation(const Station & s) {
+void ExpressTrain::addStation(Station & s) {
 	DirectTrain::addStation(s);
 }
 

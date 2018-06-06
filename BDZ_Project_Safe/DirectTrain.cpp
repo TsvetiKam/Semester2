@@ -39,7 +39,7 @@ Train * DirectTrain::clone() const {
 	return new DirectTrain(*this);
 }
 
-void DirectTrain::addStation(const Station & s) {
+void DirectTrain::addStation(Station & s) {
 	if (priority <= s.getPriority()) {
 		Train::addStation(s);
 	}

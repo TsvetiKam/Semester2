@@ -16,7 +16,7 @@ int main() {
 	Point C(23.543, 45.634);
 	Point D(23.421, 46.522);
 	Point E(23.999, 46.001);
-
+	/*
 	Point F;
 	std::cin >> F;
 	std::cout << F;
@@ -56,8 +56,25 @@ int main() {
 	Line line(&train, &a, &e, "00::00::00");
 
 	std::cout << line.Distance() << std::endl;
+	*/
 
 
+	Train t;
+	std::cin >> t;
+	Station s1("Plovdiv", A, 8);
+	Station s2("Stara Zagora", B, 8);
+	Station s3("Yambol", C, 10);
+	Station s4("Burgas", D, 9);
+	Station s5("Varna", E, 10);
+	t.addStation(s1);
+	t.addStation(s2);
+	t.addStation(s3);
+	t.addStation(s4);
+	t.addStation(s5);
+
+	Line l(&t, s1, s2, Time("12::00::00"));
+
+	t.printSchedule();
 
 	return 0;
 }

@@ -2,11 +2,13 @@
 #include "Train.h"
 #include "Station.h"
 #include <iostream>
-
+#include "RailwaySchedule.h"
 
 
 void Train::erase() {
 	delete[] wagonPlaces;
+	delete schedule;
+	schedule = NULL;
 	wagonPlaces = NULL;
 }
 
@@ -14,6 +16,9 @@ void Train::copy(const Train & other) {
 	this->speed = other.speed;
 	this->route = other.route;
 	this->wagonsCount = other.wagonsCount;
+	if (other.schedule != NULL) {
+		schedule = new RailwaySchedule(*other.schedule);
+	}
 	if (other.wagonsCount > 0) {
 		this->wagonPlaces = new unsigned int[wagonsCount];
 		for (unsigned int i = 0; i < wagonsCount; i++) {
@@ -53,15 +58,20 @@ void Train::read(std::istream& in) {
 	std::cout << "Enter train speed: ";
 	in >> speed;
 	in.ignore();
+	std::cout << "Enter depature time in the format of (hh::mm::ss): ";
+	char buffer[20] = "";
+	in.getline(buffer, 11);
+	departure = Time(buffer);
 }
 
 Train::Train() {
 	wagonPlaces = NULL;
+	schedule = new RailwaySchedule;
 	wagonsCount = 0;
 	speed = 0;
 }
 
-Train::Train(const unsigned int * wagonPlaces, unsigned int wagonsCount, double speed) {
+Train::Train(const unsigned int * wagonPlaces, unsigned int wagonsCount, double speed) : schedule(new RailwaySchedule()) {
 	this->speed = speed;
 	this->wagonsCount = wagonsCount;
 	if (wagonsCount > 0) {
@@ -75,7 +85,7 @@ Train::Train(const unsigned int * wagonPlaces, unsigned int wagonsCount, double 
 	}
 }
 
-Train::Train(const Train & other) {
+Train::Train(const Train & other) : schedule(new RailwaySchedule()) {
 	copy(other);
 }
 
@@ -103,8 +113,28 @@ double Train::getSpeed() const {
 	return speed;
 }
 
-void Train::addStation(const Station & s) {
+void Train::addStation(Station & s) {
 	route.push(s);
+
+	int stationCount = route.getSize();
+	Queue<Station> tempRoute = route;
+	Station s1;
+
+	if (stationCount > 1) {
+		for (int i = 0; i < stationCount - 1; i++) {
+			s1 = tempRoute.frontData();
+			tempRoute.pop();
+			Line l(this, route.frontData(), s1, departure);
+			Time t = l.getArrival();
+
+			schedule->addLine(Line(this, s1, s, t));
+		}
+	}
+
+}
+
+void Train::printSchedule() const {
+	schedule->print();
 }
 
 std::ostream & operator<<(std::ostream & out, Train& train) {
