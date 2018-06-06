@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Point.h"
 #include <cmath>
+#include <iostream>
+
 
 Point::Point() {
 	latitude = 0;
@@ -58,4 +60,18 @@ double getDistance(Point start, Point end) {
 	double distance = R * c;
 
 	return distance;
+}
+
+std::ostream & operator<<(std::ostream & out, const Point & x) {
+	out << "( " << x.lat << " | " << x.lon << " )" << std::endl;
+	return out;
+}
+
+std::istream & operator>>(std::istream & in, Point & x) {
+	std::cout << "Enter latitude: ";
+	in >> x.lat;
+	std::cout << "Enter longitude: ";
+	in >> x.lon;
+	in.ignore();
+	return in;
 }

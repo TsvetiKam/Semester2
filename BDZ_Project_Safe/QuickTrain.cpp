@@ -4,10 +4,10 @@
 void QuickTrain::print(std::ostream & out) const {
 	Train::print(out);
 	if (coefficient > 1) {
-		out << "This train is " << coefficient << " times faster than normal trains." << std::endl;
+		out << "		This train is " << coefficient << " times faster than normal trains." << std::endl;
 	}
 	else {
-		out << "This train isn't faster than normal trains." << std::endl;
+		out << "		This train isn't faster than normal trains." << std::endl;
 	}
 }
 
@@ -19,6 +19,7 @@ void QuickTrain::read(std::istream & in) {
 		std::cout << "Coefficient must be between 1 and 3: ";
 		in >> coefficient;
 	}
+	in.ignore();
 	speed *= coefficient;
 }
 

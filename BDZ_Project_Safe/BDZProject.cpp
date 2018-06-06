@@ -1,12 +1,13 @@
 #include "stdafx.h"
-#include "Queue.h"
 #include <iostream>
+#include "Queue.h"
 #include "Train.h"
 #include "Station.h"
 #include "Line.h"
-#include  "QuickTrain.h"
+#include "QuickTrain.h"
 #include "DirectTrain.h"
 #include "ExpressTrain.h"
+#include "RailwaySchedule.h"
 
 int main() {
 	
@@ -16,15 +17,35 @@ int main() {
 	Point D(23.421, 46.522);
 	Point E(23.999, 46.001);
 
+	Point F;
+	std::cin >> F;
+	std::cout << F;
+
 	Station a("a", A, 10);
 	Station b("b", B, 1);
 	Station c("c", C, 3);
 	Station d("d", D, 7);
 	Station e("e", E, 6);
 
+	Station f;
+	std::cin >> f;
 	unsigned int arr[5];
+	arr[0] = 10;
+	arr[1] = 10;
+	arr[2] = 10;
+	arr[3] = 10;
+	arr[4] = 10;
 
 	Train train(arr, 5, 100);
+	Train t(arr, 5, 200);
+	QuickTrain q(arr, 5, 200, 1.5);
+	DirectTrain g(arr, 5, 140, 3);
+
+	f.addTrain(&train);
+	f.addTrain(&t);
+	f.addTrain(&q);
+	f.addTrain(&g);
+	std::cout << f;
 
 	train.addStation(a);
 	train.addStation(b);
@@ -36,42 +57,8 @@ int main() {
 
 	std::cout << line.Distance() << std::endl;
 
-	ExpressTrain t; 
-	std::cin >> t;
-	t.addStation(a);
-	t.addStation(b);
-	t.addStation(c);
-	t.addStation(d);
-	t.addStation(e);
-	DirectTrain r;
-	std::cin >> r;
-	t.addStation(a);
-	t.addStation(b);
-	t.addStation(c);
-	t.addStation(d);
-	t.addStation(e);
-	QuickTrain s;
-	std::cin >> s;
-	t.addStation(a);
-	t.addStation(b);
-	t.addStation(c);
-	t.addStation(d);
-	t.addStation(e);
-
-
-	Train* trains[4];
-	trains[0] = &train;
-	trains[1] = &t;
-	trains[2] = &r;
-	trains[3] = &s;
-
-	for (int i = 0; i < 4; i++) {
-		std::cout << *trains[i] << std::endl;
-	}
-
 
 
 	return 0;
-
 }
 

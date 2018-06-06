@@ -6,11 +6,15 @@
 void Station::del() {
 	delete[] name;
 	for (int i = 0; i < trainCount; i++) {
-		trains[i] = NULL;
+		delete trains[i];
 	}
+	delete[] trains;
+	trains = NULL;
 }
 
 void Station::copy(const Station & other) {
+	trains = NULL;
+	trainCount = 0;
 	this->coordinates = other.coordinates;
 	this->priority = other.priority;
 	this->name = new char[strlen(other.name) + 1];
@@ -21,8 +25,6 @@ void Station::copy(const Station & other) {
 	}
 }
 
-
-
 Station::Station() : coordinates(0,0) {
 	name = NULL;
 	trains = NULL;
@@ -30,7 +32,7 @@ Station::Station() : coordinates(0,0) {
 	trainCount = 0;
 }
 
-Station::Station(const char * name, Point coordinates, int priority) : coordinates(coordinates) {
+Station::Station(const char * name, Point coordinates, int priority) : coordinates(coordinates), trains(NULL) {
 	this->name = new char[strlen(name) + 1];
 	strcpy_s(this->name, strlen(name) + 1, name);
 	if (priority >= 1 && priority <= 10) {
@@ -40,7 +42,6 @@ Station::Station(const char * name, Point coordinates, int priority) : coordinat
 		std::cout << "Invalid priority." << std::endl;
 		this->priority = 1;
 	}
-	trains = NULL;
 	trainCount = 0;
 }
 
@@ -66,7 +67,7 @@ void Station::addTrain(Train* train) {
 	for (int i = 0; i < trainCount; i++) {
 		trains[i] = temp[i];
 	}
-	trains[trainCount] = train;
+	trains[trainCount] = train->clone();
 	trainCount++;
 	delete[] temp;
 }
@@ -133,4 +134,39 @@ bool Station::operator==(const Station & other) const {
 
 
 
+std::istream & operator>>(std::istream& is, Station & station) {
+	std::cout << "Enter station name: ";
+	char buffer[2048] = "";
+	is.getline(buffer, 2048);
+	if (station.name != NULL) {
+		delete[] station.name;
+		station.name = NULL;
+	}
+	station.name = new char[strlen(buffer) + 1];
+	strcpy_s(station.name, strlen(buffer) + 1, buffer);
+	std::cout << "Coordinates: " << std::endl;
+	is >> station.coordinates;
+	std::cout << "Enter priority: ";
+	is >> station.priority;
+	while (station.priority < 1 || station.priority > 10) {
+		std::cout << "Priority must be between 1 and 10: ";
+		is >> station.priority;
+	}
+	return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const Station & station) {
+	os << "\n" <<"Station " << station.name << std::endl;
+	os << station.coordinates << "Priority: " << station.priority << std::endl;
+	if (station.trainCount > 0) {
+		for (int i = 0; i < station.trainCount; i++) {
+			os << "		Train: " << i << std::endl;
+			os << "		" << *(station.trains[i]);
+		}
+	}
+	else {
+		os << "There are no trains on that station." <<std::endl;
+	}
+	return os;
+}
 

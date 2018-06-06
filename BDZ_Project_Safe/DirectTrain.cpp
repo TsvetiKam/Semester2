@@ -3,7 +3,7 @@
 
 void DirectTrain::print(std::ostream & out) const {
 	Train::print(out);
-	out << "Priority: " << priority << std::endl;
+	out << "		Priority: " << priority << std::endl;
 }
 
 void DirectTrain::read(std::istream & in) {
@@ -15,6 +15,7 @@ void DirectTrain::read(std::istream & in) {
 		std::cout << "Priority must be between 1 and 10: ";
 		in >> priority;
 	}
+	in.ignore();
 
 }
 

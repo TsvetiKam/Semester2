@@ -3,8 +3,11 @@
 #include "Station.h"
 #include <iostream>
 
+
+
 void Train::erase() {
 	delete[] wagonPlaces;
+	wagonPlaces = NULL;
 }
 
 void Train::copy(const Train & other) {
@@ -28,7 +31,7 @@ void Train::print(std::ostream & out) const {
 	}
 	out << "Speed: " << speed << " Number of wagons: " << wagonsCount << std::endl;
 	for (unsigned int i = 0; i < wagonsCount; i++) {
-		out << "Wagon " << i + 1 << " has: " << wagonPlaces[i] << " seats. ";
+		out << "		Wagon " << i + 1 << " has: " << wagonPlaces[i] << " seats. " << std::endl;
 	}
 	out << std::endl;
 }
@@ -49,6 +52,7 @@ void Train::read(std::istream& in) {
 	}
 	std::cout << "Enter train speed: ";
 	in >> speed;
+	in.ignore();
 }
 
 Train::Train() {

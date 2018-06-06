@@ -3,7 +3,7 @@
 
 void ExpressTrain::print(std::ostream & out) const {
 	QuickTrain::print(out);
-	out << "Priority: " << priority << std::endl;
+	out << "		Priority: " << priority << std::endl;
 }
 
 void ExpressTrain::read(std::istream & in) {
@@ -15,6 +15,7 @@ void ExpressTrain::read(std::istream & in) {
 		std::cout << "Priority must be between 1 and 10: ";
 		in >> priority;
 	}
+	in.ignore();
 }
 
 ExpressTrain::ExpressTrain() : Train(), QuickTrain(), DirectTrain() {

@@ -1,5 +1,6 @@
 #ifndef POINT_H_
 #define POINT_H_
+#include <iostream>
 
 class Point {
 private: 
@@ -17,6 +18,8 @@ public:
 	bool operator==(const Point& other) const;
 
 	friend double getDistance(Point start, Point end);
+	friend std::ostream& operator<<(std::ostream& out, const Point& x); 
+	friend std::istream& operator>>(std::istream& in, Point& x);
 };
 
 double getDistance(Point start, Point end);
